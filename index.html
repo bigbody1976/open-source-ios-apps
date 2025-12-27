@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open-Source iOS Apps</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4fc3f7;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+        }
+        
+        .search-box input::placeholder {
+            color: #888;
+        }
+        
+        .search-box input:focus {
+            outline: 2px solid #4fc3f7;
+        }
+        
+        .filter-select {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            min-width: 200px;
+        }
+        
+        .filter-select:focus {
+            outline: 2px solid #4fc3f7;
+        }
+        
+        .filter-select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+        
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .app-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+        
+        .app-title {
+            font-size: 1.25rem;
+            color: #fff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stars {
+            color: #ffd700;
+            font-size: 0.9rem;
+        }
+        
+        .app-description {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .app-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .tag {
+            background: rgba(79, 195, 247, 0.2);
+            color: #4fc3f7;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .category-tag {
+            background: rgba(156, 39, 176, 0.2);
+            color: #ce93d8;
+        }
+        
+        .app-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .app-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        
+        .github-link {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        
+        .github-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .appstore-link {
+            background: rgba(0, 122, 255, 0.2);
+            color: #64b5f6;
+        }
+        
+        .appstore-link:hover {
+            background: rgba(0, 122, 255, 0.3);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+            grid-column: 1 / -1;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Open-Source iOS Apps</h1>
+            <p class="subtitle">A collaborative list of open-source iOS, watchOS and tvOS apps</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="total-apps">-</div>
+                    <div class="stat-label">Total Apps</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="total-categories">-</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="swift-apps">-</div>
+                    <div class="stat-label">Swift Apps</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Search apps by name or description...">
+            </div>
+            <select class="filter-select" id="category-filter">
+                <option value="">All Categories</option>
+            </select>
+            <select class="filter-select" id="language-filter">
+                <option value="">All Languages</option>
+            </select>
+        </div>
+        
+        <div class="apps-grid" id="apps-container">
+            <div class="loading">Loading apps...</div>
+        </div>
+    </div>
+    
+    <script>
+        let allApps = [];
+        let categories = [];
+        let categoryMap = {};
+        
+        async function loadData() {
+            try {
+                const response = await fetch('/contents.json');
+                const data = await response.json();
+                
+                categories = data.categories || [];
+                categoryMap = {};
+                categories.forEach(cat => {
+                    categoryMap[cat.id] = cat.title;
+                });
+                
+                allApps = data.projects || [];
+                
+                document.getElementById('total-apps').textContent = allApps.length;
+                document.getElementById('total-categories').textContent = categories.length;
+                document.getElementById('swift-apps').textContent = allApps.filter(app => 
+                    app.tags && app.tags.includes('swift')
+                ).length;
+                
+                populateFilters();
+                renderApps(allApps);
+            } catch (error) {
+                document.getElementById('apps-container').innerHTML = 
+                    '<div class="no-results">Error loading data. Please refresh the page.</div>';
+                console.error('Error loading data:', error);
+            }
+        }
+        
+        function populateFilters() {
+            const categorySelect = document.getElementById('category-filter');
+            const languageSelect = document.getElementById('language-filter');
+            
+            const mainCategories = categories.filter(c => !c.parent);
+            mainCategories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.title;
+                categorySelect.appendChild(option);
+            });
+            
+            const languages = new Set();
+            allApps.forEach(app => {
+                if (app.tags) {
+                    app.tags.forEach(tag => {
+                        if (['swift', 'objc', 'objective-c++', 'c', 'obj-c'].includes(tag.toLowerCase())) {
+                            languages.add(tag);
+                        }
+                    });
+                }
+            });
+            
+            languages.forEach(lang => {
+                const option = document.createElement('option');
+                option.value = lang;
+                option.textContent = lang.charAt(0).toUpperCase() + lang.slice(1);
+                languageSelect.appendChild(option);
+            });
+        }
+        
+        function getStarsDisplay(stars) {
+            if (!stars || stars === 0) return '';
+            if (stars >= 2000) return '* * * * *';
+            if (stars >= 1000) return '* * * *';
+            if (stars >= 500) return '* * *';
+            if (stars >= 200) return '* *';
+            if (stars >= 100) return '*';
+            return '';
+        }
+        
+        function renderApps(apps) {
+            const container = document.getElementById('apps-container');
+            
+            if (apps.length === 0) {
+                container.innerHTML = '<div class="no-results">No apps found matching your criteria.</div>';
+                return;
+            }
+            
+            const sortedApps = [...apps].sort((a, b) => (b.stars || 0) - (a.stars || 0));
+            
+            container.innerHTML = sortedApps.map(app => {
+                const categoryNames = (app['category-ids'] || [])
+                    .map(id => categoryMap[id])
+                    .filter(Boolean)
+                    .slice(0, 2);
+                
+                const tags = (app.tags || []).filter(t => !['archive'].includes(t)).slice(0, 4);
+                const starsDisplay = getStarsDisplay(app.stars);
+                
+                return `
+                    <div class="app-card">
+                        <h3 class="app-title">
+                            ${app.title}
+                            ${starsDisplay ? `<span class="stars">${starsDisplay}</span>` : ''}
+                        </h3>
+                        <p class="app-description">${app.description || 'No description available'}</p>
+                        <div class="app-tags">
+                            ${categoryNames.map(cat => `<span class="tag category-tag">${cat}</span>`).join('')}
+                            ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="app-links">
+                            ${app.source ? `<a href="${app.source}" target="_blank" rel="noopener" class="app-link github-link">GitHub</a>` : ''}
+                            ${app.itunes ? `<a href="${app.itunes}" target="_blank" rel="noopener" class="app-link appstore-link">App Store</a>` : ''}
+                            ${app.homepage ? `<a href="${app.homepage}" target="_blank" rel="noopener" class="app-link github-link">Website</a>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function filterApps() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const categoryFilter = document.getElementById('category-filter').value;
+            const languageFilter = document.getElementById('language-filter').value;
+            
+            let filtered = allApps;
+            
+            if (searchTerm) {
+                filtered = filtered.filter(app => 
+                    app.title.toLowerCase().includes(searchTerm) ||
+                    (app.description && app.description.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            if (categoryFilter) {
+                filtered = filtered.filter(app => 
+                    app['category-ids'] && app['category-ids'].includes(categoryFilter)
+                );
+            }
+            
+            if (languageFilter) {
+                filtered = filtered.filter(app => 
+                    app.tags && app.tags.includes(languageFilter)
+                );
+            }
+            
+            renderApps(filtered);
+        }
+        
+        document.getElementById('search').addEventListener('input', filterApps);
+        document.getElementById('category-filter').addEventListener('change', filterApps);
+        document.getElementById('language-filter').addEventListener('change', filterApps);
+        
+        loadData();
+    </script>
+</body>
+</html>
